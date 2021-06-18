@@ -14,6 +14,7 @@ Cody Martin
 
 # Contents
 
+  - [Setup](#setup)
   - [Introduction](#introduction)
       - [Downloads](#downloads)
       - [Basic Commands](#basic-commands)
@@ -60,6 +61,12 @@ Cody Martin
               - [stacked ggplot barplots](#stacked-ggplot-barplots)
               - [grouped ggplot barplots](#grouped-ggplot-barplots)
           - [ggplot histograms](#ggplot-histograms)
+
+# Setup
+
+``` r
+library(tidyverse)
+```
 
 # Introduction
 
@@ -744,12 +751,12 @@ head(df)
 
 | x |           y |         z |
 | -: | ----------: | --------: |
-| 1 |   0.3422248 |  0.000000 |
-| 2 | \-0.3668620 |  5.050505 |
-| 3 | \-1.5485837 | 10.101010 |
-| 4 |   0.8111807 | 15.151515 |
-| 5 |   0.8583065 | 20.202020 |
-| 6 |   0.5229675 | 25.252525 |
+| 1 | \-0.1070027 |  0.000000 |
+| 2 |   1.3070774 |  5.050505 |
+| 3 | \-0.0387978 | 10.101010 |
+| 4 |   0.7452767 | 15.151515 |
+| 5 |   1.5543034 | 20.202020 |
+| 6 | \-0.7868622 | 25.252525 |
 
 </div>
 
@@ -761,12 +768,12 @@ tail(df)
 
 |     |   x |           y |        z |
 | :-- | --: | ----------: | -------: |
-| 95  |  95 | \-0.0586018 | 474.7475 |
-| 96  |  96 |   0.1977624 | 479.7980 |
-| 97  |  97 | \-0.1371004 | 484.8485 |
-| 98  |  98 |   1.4174850 | 489.8990 |
-| 99  |  99 |   1.1237098 | 494.9495 |
-| 100 | 100 |   0.0017009 | 500.0000 |
+| 95  |  95 | \-1.1653733 | 474.7475 |
+| 96  |  96 | \-0.6935189 | 479.7980 |
+| 97  |  97 | \-0.4596868 | 484.8485 |
+| 98  |  98 |   0.3133049 | 489.8990 |
+| 99  |  99 | \-0.0692075 | 494.9495 |
+| 100 | 100 |   0.7515053 | 500.0000 |
 
 </div>
 
@@ -779,16 +786,16 @@ head(df,10)
 
 |  x |           y |         z |
 | -: | ----------: | --------: |
-|  1 |   0.3422248 |  0.000000 |
-|  2 | \-0.3668620 |  5.050505 |
-|  3 | \-1.5485837 | 10.101010 |
-|  4 |   0.8111807 | 15.151515 |
-|  5 |   0.8583065 | 20.202020 |
-|  6 |   0.5229675 | 25.252525 |
-|  7 |   1.3322395 | 30.303030 |
-|  8 | \-0.2064908 | 35.353535 |
-|  9 |   0.0009678 | 40.404040 |
-| 10 | \-0.5959995 | 45.454546 |
+|  1 | \-0.1070027 |  0.000000 |
+|  2 |   1.3070774 |  5.050505 |
+|  3 | \-0.0387978 | 10.101010 |
+|  4 |   0.7452767 | 15.151515 |
+|  5 |   1.5543034 | 20.202020 |
+|  6 | \-0.7868622 | 25.252525 |
+|  7 |   0.3801025 | 30.303030 |
+|  8 |   1.2926758 | 35.353535 |
+|  9 | \-0.7444566 | 40.404040 |
+| 10 | \-1.2683714 | 45.454546 |
 
 </div>
 
@@ -839,12 +846,12 @@ gene_data
 
 <div class="kable-table">
 
-| Gene |    Log2FC |   Fitness |
-| :--- | --------: | --------: |
-| gp01 | 0.0261435 | 0.1987459 |
-| gp02 | 1.2869716 | 0.2428270 |
-| gp03 | 1.4576965 | 0.1606434 |
-| gp04 | 0.3124903 | 0.4191807 |
+| Gene |      Log2FC |   Fitness |
+| :--- | ----------: | --------: |
+| gp01 | \-1.0994933 | 0.0827140 |
+| gp02 |   1.3032369 | 0.3685864 |
+| gp03 |   0.0953215 | 0.1262208 |
+| gp04 | \-1.2445430 | 0.8784187 |
 
 </div>
 
@@ -859,12 +866,12 @@ gene_data
 
 <div class="kable-table">
 
-|      |    Log2FC |   Fitness |
-| :--- | --------: | --------: |
-| gp01 | 0.0261435 | 0.1987459 |
-| gp02 | 1.2869716 | 0.2428270 |
-| gp03 | 1.4576965 | 0.1606434 |
-| gp04 | 0.3124903 | 0.4191807 |
+|      |      Log2FC |   Fitness |
+| :--- | ----------: | --------: |
+| gp01 | \-1.0994933 | 0.0827140 |
+| gp02 |   1.3032369 | 0.3685864 |
+| gp03 |   0.0953215 | 0.1262208 |
+| gp04 | \-1.2445430 | 0.8784187 |
 
 </div>
 
@@ -1079,32 +1086,28 @@ ones if you are using locally stored data are:
     for example, to see all the arguments that can be passed.
 
 Here is an example reading in data from a lysis curve with OD values per
-timepoint per
-sample.
+timepoint per sample.
 
 ``` r
-data = read.delim("lysis_curves/data/tabdelimited/190812_Plaque_purified_N4r-_2_infections.txt", 
-                  sep = "\t")
-# column names usually are disrupted
-colnames(data) = c("Time (min)","MG1655","N4","N4r- 2-1","N4r- 2-2","N4r- 2-3","N4r- 2-4","N4r- 2-5")
+data = read.delim("lysis_curves/test1.txt", sep = "\t")
 data
 ```
 
 <div class="kable-table">
 
-| Time (min) | MG1655 |    N4 | N4r- 2-1 | N4r- 2-2 | N4r- 2-3 | N4r- 2-4 | N4r- 2-5 |
-| ---------: | -----: | ----: | -------: | -------: | -------: | -------: | -------: |
-|          0 |  0.223 | 0.239 |    0.237 |    0.231 |    0.228 |    0.235 |    0.231 |
-|         30 |  0.523 | 0.488 |    0.489 |    0.505 |    0.510 |    0.506 |    0.504 |
-|         35 |  0.620 | 0.558 |    0.441 |    0.505 |    0.550 |    0.503 |    0.510 |
-|         40 |  0.685 | 0.612 |    0.212 |    0.354 |    0.517 |    0.332 |    0.379 |
-|         45 |  0.772 | 0.683 |    0.110 |    0.222 |    0.428 |    0.176 |    0.244 |
-|         50 |  0.844 | 0.718 |    0.089 |    0.137 |    0.371 |    0.118 |    0.174 |
-|         55 |  0.888 | 0.789 |    0.067 |    0.111 |    0.354 |    0.098 |    0.136 |
-|         60 |  0.968 | 0.815 |    0.068 |    0.105 |    0.346 |    0.095 |    0.126 |
-|         70 |  1.390 | 0.859 |    0.051 |    0.091 |    0.331 |    0.108 |    0.111 |
-|         80 |  1.544 | 0.962 |    0.053 |    0.068 |    0.151 |    0.086 |    0.074 |
-|         93 |  2.010 | 1.224 |    0.048 |    0.070 |    0.125 |    0.064 |    0.084 |
+| Time |     A |     B |     C |     D |     E |     F |     G |
+| ---: | ----: | ----: | ----: | ----: | ----: | ----: | ----: |
+|    0 | 0.223 | 0.239 | 0.237 | 0.231 | 0.228 | 0.235 | 0.231 |
+|   30 | 0.523 | 0.488 | 0.489 | 0.505 | 0.510 | 0.506 | 0.504 |
+|   35 | 0.620 | 0.558 | 0.441 | 0.505 | 0.550 | 0.503 | 0.510 |
+|   40 | 0.685 | 0.612 | 0.212 | 0.354 | 0.517 | 0.332 | 0.379 |
+|   45 | 0.772 | 0.683 | 0.110 | 0.222 | 0.428 | 0.176 | 0.244 |
+|   50 | 0.844 | 0.718 | 0.089 | 0.137 | 0.371 | 0.118 | 0.174 |
+|   55 | 0.888 | 0.789 | 0.067 | 0.111 | 0.354 | 0.098 | 0.136 |
+|   60 | 0.968 | 0.815 | 0.068 | 0.105 | 0.346 | 0.095 | 0.126 |
+|   70 | 1.390 | 0.859 | 0.051 | 0.091 | 0.331 | 0.108 | 0.111 |
+|   80 | 1.544 | 0.962 | 0.053 | 0.068 | 0.151 | 0.086 | 0.074 |
+|   93 | 2.010 | 1.224 | 0.048 | 0.070 | 0.125 | 0.064 | 0.084 |
 
 </div>
 
@@ -1194,8 +1197,7 @@ plot(mtcars$wt, mtcars$mpg)
 
 Here is where base R sucks - if you have multiple lines you want to
 plot, you will essentially need multiple lines of code to keep adding
-new lines. Let’s return to my real lysis curve
-data.
+new lines. Let’s return to my real lysis curve data.
 
 ``` r
 data
@@ -1203,19 +1205,19 @@ data
 
 <div class="kable-table">
 
-| Time (min) | MG1655 |    N4 | N4r- 2-1 | N4r- 2-2 | N4r- 2-3 | N4r- 2-4 | N4r- 2-5 |
-| ---------: | -----: | ----: | -------: | -------: | -------: | -------: | -------: |
-|          0 |  0.223 | 0.239 |    0.237 |    0.231 |    0.228 |    0.235 |    0.231 |
-|         30 |  0.523 | 0.488 |    0.489 |    0.505 |    0.510 |    0.506 |    0.504 |
-|         35 |  0.620 | 0.558 |    0.441 |    0.505 |    0.550 |    0.503 |    0.510 |
-|         40 |  0.685 | 0.612 |    0.212 |    0.354 |    0.517 |    0.332 |    0.379 |
-|         45 |  0.772 | 0.683 |    0.110 |    0.222 |    0.428 |    0.176 |    0.244 |
-|         50 |  0.844 | 0.718 |    0.089 |    0.137 |    0.371 |    0.118 |    0.174 |
-|         55 |  0.888 | 0.789 |    0.067 |    0.111 |    0.354 |    0.098 |    0.136 |
-|         60 |  0.968 | 0.815 |    0.068 |    0.105 |    0.346 |    0.095 |    0.126 |
-|         70 |  1.390 | 0.859 |    0.051 |    0.091 |    0.331 |    0.108 |    0.111 |
-|         80 |  1.544 | 0.962 |    0.053 |    0.068 |    0.151 |    0.086 |    0.074 |
-|         93 |  2.010 | 1.224 |    0.048 |    0.070 |    0.125 |    0.064 |    0.084 |
+| Time |     A |     B |     C |     D |     E |     F |     G |
+| ---: | ----: | ----: | ----: | ----: | ----: | ----: | ----: |
+|    0 | 0.223 | 0.239 | 0.237 | 0.231 | 0.228 | 0.235 | 0.231 |
+|   30 | 0.523 | 0.488 | 0.489 | 0.505 | 0.510 | 0.506 | 0.504 |
+|   35 | 0.620 | 0.558 | 0.441 | 0.505 | 0.550 | 0.503 | 0.510 |
+|   40 | 0.685 | 0.612 | 0.212 | 0.354 | 0.517 | 0.332 | 0.379 |
+|   45 | 0.772 | 0.683 | 0.110 | 0.222 | 0.428 | 0.176 | 0.244 |
+|   50 | 0.844 | 0.718 | 0.089 | 0.137 | 0.371 | 0.118 | 0.174 |
+|   55 | 0.888 | 0.789 | 0.067 | 0.111 | 0.354 | 0.098 | 0.136 |
+|   60 | 0.968 | 0.815 | 0.068 | 0.105 | 0.346 | 0.095 | 0.126 |
+|   70 | 1.390 | 0.859 | 0.051 | 0.091 | 0.331 | 0.108 | 0.111 |
+|   80 | 1.544 | 0.962 | 0.053 | 0.068 | 0.151 | 0.086 | 0.074 |
+|   93 | 2.010 | 1.224 | 0.048 | 0.070 | 0.125 | 0.064 | 0.084 |
 
 </div>
 
@@ -1384,28 +1386,27 @@ full customization. Some useful ones include:
 ### Structing data for use in ggplot
 
 The big power of using `ggplot` is that it can stylize your plots with
-minimal code. The catch is that your data needs to be vertically
-structured instead of the more inuitive horizontal structure. Here’s
-what I mean. Let’s take my lysis data again.
+minimal code. The catch is that your data needs to be long formatted
+instead of the more inuitive wide format Here’s what I mean. Let’s take
+my lysis data again.
 
-Here is my lysis data horizontally
-structured:
+Here is my lysis data in wide format:
 
 <div class="kable-table">
 
-| Time (min) | MG1655 |    N4 | N4r- 2-1 | N4r- 2-2 | N4r- 2-3 | N4r- 2-4 | N4r- 2-5 |
-| ---------: | -----: | ----: | -------: | -------: | -------: | -------: | -------: |
-|          0 |  0.223 | 0.239 |    0.237 |    0.231 |    0.228 |    0.235 |    0.231 |
-|         30 |  0.523 | 0.488 |    0.489 |    0.505 |    0.510 |    0.506 |    0.504 |
-|         35 |  0.620 | 0.558 |    0.441 |    0.505 |    0.550 |    0.503 |    0.510 |
-|         40 |  0.685 | 0.612 |    0.212 |    0.354 |    0.517 |    0.332 |    0.379 |
-|         45 |  0.772 | 0.683 |    0.110 |    0.222 |    0.428 |    0.176 |    0.244 |
-|         50 |  0.844 | 0.718 |    0.089 |    0.137 |    0.371 |    0.118 |    0.174 |
-|         55 |  0.888 | 0.789 |    0.067 |    0.111 |    0.354 |    0.098 |    0.136 |
-|         60 |  0.968 | 0.815 |    0.068 |    0.105 |    0.346 |    0.095 |    0.126 |
-|         70 |  1.390 | 0.859 |    0.051 |    0.091 |    0.331 |    0.108 |    0.111 |
-|         80 |  1.544 | 0.962 |    0.053 |    0.068 |    0.151 |    0.086 |    0.074 |
-|         93 |  2.010 | 1.224 |    0.048 |    0.070 |    0.125 |    0.064 |    0.084 |
+| Time |     A |     B |     C |     D |     E |     F |     G |
+| ---: | ----: | ----: | ----: | ----: | ----: | ----: | ----: |
+|    0 | 0.223 | 0.239 | 0.237 | 0.231 | 0.228 | 0.235 | 0.231 |
+|   30 | 0.523 | 0.488 | 0.489 | 0.505 | 0.510 | 0.506 | 0.504 |
+|   35 | 0.620 | 0.558 | 0.441 | 0.505 | 0.550 | 0.503 | 0.510 |
+|   40 | 0.685 | 0.612 | 0.212 | 0.354 | 0.517 | 0.332 | 0.379 |
+|   45 | 0.772 | 0.683 | 0.110 | 0.222 | 0.428 | 0.176 | 0.244 |
+|   50 | 0.844 | 0.718 | 0.089 | 0.137 | 0.371 | 0.118 | 0.174 |
+|   55 | 0.888 | 0.789 | 0.067 | 0.111 | 0.354 | 0.098 | 0.136 |
+|   60 | 0.968 | 0.815 | 0.068 | 0.105 | 0.346 | 0.095 | 0.126 |
+|   70 | 1.390 | 0.859 | 0.051 | 0.091 | 0.331 | 0.108 | 0.111 |
+|   80 | 1.544 | 0.962 | 0.053 | 0.068 | 0.151 | 0.086 | 0.074 |
+|   93 | 2.010 | 1.224 | 0.048 | 0.070 | 0.125 | 0.064 | 0.084 |
 
 </div>
 
@@ -1413,35 +1414,131 @@ This is **NOT** suitable for use with `ggplot`. (Actually it can work,
 but it’s more complicated.)
 
 Here is the same lysis data vertically structured (only first 13 rows).
+In R, you can use the `dplyr` function `gather` to perform this
+conversion for you. If you load `tidyverse` or `dplyr` in your script
+you will have access to `gather` and the useful pipe command `%>%`.
+`%>%` takes the object before it, and uses that as an input to the next
+command\! How nifty.
+
+Here, notice how we also write `-Time`. We want to keep that column
+static for all the data sets. In other words, cycle through times for
+all the data values here.
+
+``` r
+data %>% 
+  gather(key="Sample", value = "OD", -Time) %>% 
+  head(13)
+```
 
 <div class="kable-table">
 
-| Time |    OD | Sample |
-| ---: | ----: | :----- |
-|    0 | 0.223 | MG1655 |
-|   30 | 0.523 | MG1655 |
-|   35 | 0.620 | MG1655 |
-|   40 | 0.685 | MG1655 |
-|   45 | 0.772 | MG1655 |
-|   50 | 0.844 | MG1655 |
-|   55 | 0.888 | MG1655 |
-|   60 | 0.968 | MG1655 |
-|   70 | 1.390 | MG1655 |
-|   80 | 1.544 | MG1655 |
-|   93 | 2.010 | MG1655 |
-|    0 | 0.239 | N4     |
-|   30 | 0.488 | N4     |
+| Time | Sample |    OD |
+| ---: | :----- | ----: |
+|    0 | A      | 0.223 |
+|   30 | A      | 0.523 |
+|   35 | A      | 0.620 |
+|   40 | A      | 0.685 |
+|   45 | A      | 0.772 |
+|   50 | A      | 0.844 |
+|   55 | A      | 0.888 |
+|   60 | A      | 0.968 |
+|   70 | A      | 1.390 |
+|   80 | A      | 1.544 |
+|   93 | A      | 2.010 |
+|    0 | B      | 0.239 |
+|   30 | B      | 0.488 |
 
 </div>
 
 Notice how every row is a **SINGULAR** observation. It is the OD at one
 timepoint with the sample. Suppose you had something more complicated
 like ± DNP addition. You could add a fourth column with that
-information.
+information. You can also name your columns in wide-formatted data to
+contain the metadata for your experiment. Here’s an example:
+
+The data in this table is from a lysis curve measuring optical density
+over time for strains with 3 different genotypes A, B, and C. In
+addition, the column names contain metadata for whether or not phage
+were added (MinusPhage vs PlusPhage) and whether or not a chemical was
+added.
+
+``` r
+data = read.delim("lysis_curves/test2.txt")
+data %>% head()
+```
+
+<div class="kable-table">
+
+| Time | A\_MinusPhage\_MinusChem | B\_MinusPhage\_MinusChem | C\_MinusPhage\_MinusChem | A\_PlusPhage\_MinusChem | B\_PlusPhage\_MinusChem | C\_PlusPhage\_MinusChem | A\_PlusPhage\_PlusChem | B\_PlusPhage\_PlusChem | C\_PlusPhage\_PlusChem |
+| ---: | -----------------------: | -----------------------: | -----------------------: | ----------------------: | ----------------------: | ----------------------: | ---------------------: | ---------------------: | ---------------------: |
+|    0 |                    0.200 |                    0.239 |                    0.163 |                   0.186 |                   0.215 |                   0.168 |                  0.217 |                  0.223 |                  0.175 |
+|   15 |                    0.305 |                    0.354 |                    0.259 |                   0.304 |                   0.334 |                   0.276 |                  0.335 |                  0.347 |                  0.279 |
+|   20 |                    0.342 |                    0.367 |                    0.282 |                   0.352 |                   0.352 |                   0.302 |                  0.387 |                  0.395 |                  0.323 |
+|   25 |                    0.387 |                    0.390 |                    0.319 |                   0.395 |                   0.419 |                   0.332 |                  0.454 |                  0.402 |                  0.324 |
+|   30 |                    0.440 |                    0.420 |                    0.336 |                   0.478 |                   0.418 |                   0.308 |                  0.512 |                  0.410 |                  0.287 |
+|   35 |                    0.504 |                    0.430 |                    0.306 |                   0.498 |                   0.452 |                   0.296 |                  0.554 |                  0.402 |                  0.287 |
+
+</div>
+
+We can convert this wide data into long data easily with `gather`, but
+now we also want to separate the columns further into new columns called
+“Sample”, “Phage\_Add”, “Chem\_Add”, to track samples, phage addition,
+and chemical addition. We can use the aptly named `separate` function
+from the `dplyr` package in `tidyverse`. `separate` will split a text
+string at non-alphanumeric characters, but you can also specify a
+delimiter.
+
+We can also further replace “MinusXX” and “PlusXX” with “-” and “+” now
+too for easier viewing with the `mutate` command, which adds or changes
+entire columns.
+
+``` r
+data_long = data %>% 
+  gather(key = "Group", value = "OD", -Time) %>% 
+  separate(Group, remove=F, into=c("Sample", "Phage_Add", "Chem_Add")) %>% 
+  mutate(
+    Phage_Add = ifelse(Phage_Add == "MinusPhage", "-", "+"),
+    Chem_Add = ifelse(Chem_Add == "MinusChem", "-", "+")
+  )
+
+data_long %>% head()
+```
+
+<div class="kable-table">
+
+| Time | Group                    | Sample | Phage\_Add | Chem\_Add |    OD |
+| ---: | :----------------------- | :----- | :--------- | :-------- | ----: |
+|    0 | A\_MinusPhage\_MinusChem | A      | \-         | \-        | 0.200 |
+|   15 | A\_MinusPhage\_MinusChem | A      | \-         | \-        | 0.305 |
+|   20 | A\_MinusPhage\_MinusChem | A      | \-         | \-        | 0.342 |
+|   25 | A\_MinusPhage\_MinusChem | A      | \-         | \-        | 0.387 |
+|   30 | A\_MinusPhage\_MinusChem | A      | \-         | \-        | 0.440 |
+|   35 | A\_MinusPhage\_MinusChem | A      | \-         | \-        | 0.504 |
+
+</div>
+
+``` r
+data_long %>% tail()
+```
+
+<div class="kable-table">
+
+|     | Time | Group                  | Sample | Phage\_Add | Chem\_Add |    OD |
+| :-- | ---: | :--------------------- | :----- | :--------- | :-------- | ----: |
+| 148 |   65 | C\_PlusPhage\_PlusChem | C      | \+         | \+        | 0.215 |
+| 149 |   70 | C\_PlusPhage\_PlusChem | C      | \+         | \+        | 0.166 |
+| 150 |   75 | C\_PlusPhage\_PlusChem | C      | \+         | \+        | 0.163 |
+| 151 |   80 | C\_PlusPhage\_PlusChem | C      | \+         | \+        | 0.140 |
+| 152 |   85 | C\_PlusPhage\_PlusChem | C      | \+         | \+        | 0.128 |
+| 153 |   90 | C\_PlusPhage\_PlusChem | C      | \+         | \+        | 0.123 |
+
+</div>
 
 If you are going to commit to using `ggplot`, you should either stop
-making horizontal tables, or (**preferred method**) just write code to
-switch horizontal data to vertical data.
+making wide tables, or (**preferred method**) just write code to switch
+wide data to long data. As shown above, if you name your columns in a
+logical and consistent manner, you can use functions like `gather` and
+`separate` to structure your data in long format easily.
 
 ### ggplot scatterplots
 
@@ -1459,7 +1556,7 @@ ggplot(data = iris, aes(x = Petal.Length, y = Petal.Width)) +
   theme_bw()
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-43-1.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-45-1.png" style="display: block; margin: auto;" />
 
 You can also fit lines to scattersplots and display the confidence
 intervals of the lines fairly easily using `geom_smooth`. To display
@@ -1483,7 +1580,7 @@ ggplot(df, aes(x,y)) +
   theme(aspect.ratio = 1/1)
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-44-1.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-46-1.png" style="display: block; margin: auto;" />
 
 #### Lysis curves
 
@@ -1494,7 +1591,9 @@ library(ggplot2)
 library(ggprism)
 library(ggrepel)
 
-data = read.csv("lysis_curves/data/190812_Plaque_purified_N4r-_2_infections.csv")
+data = read.delim("lysis_curves/test1.txt")
+data = data %>% 
+  gather(key="Sample", value = "OD", -Time)
 
 # define custom offset to move line labels away from axis
 offset = max(data$Time)*0.025
@@ -1536,15 +1635,17 @@ ggplot(data = data, aes(x = Time, y = OD)) +
         plot.margin = unit(c(1,5,1,1), "lines"))
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-45-1.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-47-1.png" style="display: block; margin: auto;" />
 
-Here’s a more complicated lysis curve.
+Here’s a more complicated lysis curve where the data is from a lysis
+curve with 3 samples, A, B, and C, testing phage addition at 3 different
+MOIs. (Think of that like phage concentration added)
 
 ``` r
 library(ggplot2)
 library(ggprism)
 
-data = read.csv("lysis_curves/data/201029_CCM_N4_addition_to_plasmid-encoded_lysis_causes_LIN.csv")
+data = read.delim("lysis_curves/test3.txt")
 
 # ggprism has default colors to use, but I want to reorder them
 cols = ggprism_data$colour_palettes$colors[c(6,1:5,7:20)]
@@ -1553,9 +1654,8 @@ cols = ggprism_data$colour_palettes$colors[c(6,1:5,7:20)]
 y_minor = c(rep(1:9, 2)*(10^rep(c(-2, -1), each=9)), 1)
 
 ggplot(data = data, aes(x = Time, y = OD)) +
-  geom_line(aes(color = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63")), # change order R will plot them
-                linetype = as.factor(MOI)), size=1.25) + 
-  geom_point(aes(shape = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63"))), 
+  geom_line(aes(color = Sample, linetype = as.factor(MOI)), size=1.25) + 
+  geom_point(aes(shape = Sample), 
                  size=2.5, fill="black", na.rm = T) +
   scale_shape_prism(palette = "default") + # use prism defined shapes
   scale_color_manual(values = cols) + # use my reordered prism colors
@@ -1577,7 +1677,7 @@ ggplot(data = data, aes(x = Time, y = OD)) +
         legend.title = element_text())
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-46-1.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-48-1.png" style="display: block; margin: auto;" />
 
 Let’s break down all these commands. `ggplot()` just draws a plot
 background and the frame. Setting the `data = data` indicates that the
@@ -1602,7 +1702,7 @@ library(ggplot2)
 ggplot(data = data, aes(x = Time, y = OD))
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-47-1.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-49-1.png" style="display: block; margin: auto;" />
 
 `geom_line()` will add lines to plot `Time` against `OD`. Notice that I
 added `aes(color = ...)`. This allows us to color the lines by the
@@ -1612,11 +1712,10 @@ plotted.
 ``` r
 library(ggplot2)
 ggplot(data = data, aes(x = Time, y = OD)) +
-  geom_line(aes(color = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63")),
-                linetype = as.factor(MOI)), size=1.25)
+  geom_line(aes(color = Sample, linetype = as.factor(MOI)), size=1.25)
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-48-1.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-50-1.png" style="display: block; margin: auto;" />
 
 `geom_point()` will also add bullet points at each time point. Notice
 that we can adjust the shape to match the sample type as well.
@@ -1624,13 +1723,11 @@ that we can adjust the shape to match the sample type as well.
 ``` r
 library(ggplot2)
 ggplot(data = data, aes(x = Time, y = OD)) +
-  geom_line(aes(color = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63")),
-                linetype = as.factor(MOI)), size=1.25) +
-  geom_point(aes(shape = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63"))), 
-                 size=2.5, fill="black", na.rm = T)
+  geom_line(aes(color = Sample, linetype = as.factor(MOI)), size=1.25) +
+  geom_point(aes(shape = Sample), size=2.5, fill="black", na.rm = T)
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-49-1.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-51-1.png" style="display: block; margin: auto;" />
 There are also many other `geom` arguments you can add depending on your
 plot type. I will show examples of these later. Notice they take other
 arguments to adjust sizes and constant color changes.
@@ -1643,14 +1740,12 @@ defined by the `ggprism` package.
 library(ggplot2)
 library(ggprism)
 ggplot(data = data, aes(x = Time, y = OD)) +
-  geom_line(aes(color = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63")),
-                linetype = as.factor(MOI)), size=1.25) +
-  geom_point(aes(shape = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63"))), 
-                 size=2.5, fill="black", na.rm = T) +
+  geom_line(aes(color = Sample, linetype = as.factor(MOI)), size=1.25) +
+  geom_point(aes(shape = Sample), size=2.5, fill="black", na.rm = T) +
   scale_shape_prism(palette = "default")
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-50-1.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-52-1.png" style="display: block; margin: auto;" />
 
 Next, we can change how `ggplot` will color anything passed to a `color`
 argument. I custom defined a vector of colors called `cols` based on
@@ -1660,15 +1755,13 @@ argument. I custom defined a vector of colors called `cols` based on
 library(ggplot2)
 library(ggprism)
 ggplot(data = data, aes(x = Time, y = OD)) +
-  geom_line(aes(color = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63")),
-                linetype = as.factor(MOI)), size=1.25) +
-  geom_point(aes(shape = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63"))), 
-                 size=2.5, fill="black", na.rm = T) +
+  geom_line(aes(color = Sample, linetype = as.factor(MOI)), size=1.25) +
+  geom_point(aes(shape = Sample), size=2.5, fill="black", na.rm = T) +
   scale_shape_prism(palette = "default") +
   scale_color_manual(values = cols)
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-51-1.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-53-1.png" style="display: block; margin: auto;" />
 
 Then we can also change how the axes are structured. First, I want to
 make the y-axis on log10 scale. I can supply the end points with the
@@ -1681,10 +1774,8 @@ usually, so I use the `expand` command to reduce that 0%.
 library(ggplot2)
 library(ggprism)
 ggplot(data = data, aes(x = Time, y = OD)) +
-  geom_line(aes(color = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63")),
-                linetype = as.factor(MOI)), size=1.25) +
-  geom_point(aes(shape = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63"))), 
-                 size=2.5, fill="black", na.rm = T) +
+  geom_line(aes(color = Sample, linetype = as.factor(MOI)), size=1.25) +
+  geom_point(aes(shape = Sample), size=2.5, fill="black", na.rm = T)+
   scale_shape_prism(palette = "default") +
   scale_color_manual(values = cols) +
   scale_y_log10(limits=c(0.01, 1),
@@ -1693,7 +1784,7 @@ ggplot(data = data, aes(x = Time, y = OD)) +
                 expand=c(0,0))
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-52-1.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-54-1.png" style="display: block; margin: auto;" />
 
 We can also change the scaling of the x axis too. I like to only have
 x-axis go from the start to end time without any extra space, but this
@@ -1704,10 +1795,8 @@ looking better.
 library(ggplot2)
 library(ggprism)
 ggplot(data = data, aes(x = Time, y = OD)) +
-  geom_line(aes(color = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63")),
-                linetype = as.factor(MOI)), size=1.25) +
-  geom_point(aes(shape = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63"))), 
-                 size=2.5, fill="black", na.rm = T) +
+  geom_line(aes(color = Sample, linetype = as.factor(MOI)), size=1.25) +
+  geom_point(aes(shape = Sample), size=2.5, fill="black", na.rm = T) +
   scale_shape_prism(palette = "default") +
   scale_color_manual(values = cols) +
   scale_y_log10(limits=c(0.01, 1),
@@ -1719,7 +1808,7 @@ ggplot(data = data, aes(x = Time, y = OD)) +
                      expand=c(0,0))
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-53-1.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-55-1.png" style="display: block; margin: auto;" />
 
 We can add labels to the axes, plot titles, and any legend titles. Note:
 legend titles are the same variables as variables passed to the `aes`
@@ -1729,10 +1818,8 @@ function.
 library(ggplot2)
 library(ggprism)
 ggplot(data = data, aes(x = Time, y = OD)) +
-  geom_line(aes(color = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63")),
-                linetype = as.factor(MOI)), size=1.25) +
-  geom_point(aes(shape = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63"))), 
-                 size=2.5, fill="black", na.rm = T) +
+  geom_line(aes(color = Sample, linetype = as.factor(MOI)), size=1.25) +
+  geom_point(aes(shape = Sample), size=2.5, fill="black", na.rm = T) +
   scale_shape_prism(palette = "default") +
   scale_color_manual(values = cols) +
   scale_y_log10(limits=c(0.01, 1),
@@ -1749,7 +1836,7 @@ ggplot(data = data, aes(x = Time, y = OD)) +
        linetype="MOI") 
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-54-1.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-56-1.png" style="display: block; margin: auto;" />
 
 `ggplot` has many themes to change the way the entire plot looks,
 especially the plot backgrounds. I like to use `theme_prism` to stylize
@@ -1760,10 +1847,8 @@ around the entire graph and specifiy the prism colors to use.
 library(ggplot2)
 library(ggprism)
 ggplot(data = data, aes(x = Time, y = OD)) +
-  geom_line(aes(color = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63")),
-                linetype = as.factor(MOI)), size=1.25) +
-  geom_point(aes(shape = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63"))), 
-                 size=2.5, fill="black", na.rm = T) +
+  geom_line(aes(color = Sample, linetype = as.factor(MOI)), size=1.25) +
+  geom_point(aes(shape = Sample), size=2.5, fill="black", na.rm = T) +
   scale_shape_prism(palette = "default") +
   scale_color_manual(values = cols) +
   scale_y_log10(limits=c(0.01, 1),
@@ -1781,7 +1866,7 @@ ggplot(data = data, aes(x = Time, y = OD)) +
   theme_prism(border=T, palette = "colors")
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-55-1.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-57-1.png" style="display: block; margin: auto;" />
 
 Notice how the points at the min and max values on the x-axis are hidden
 underneath the plot itself. We can fix this by changing `clip = "off"`
@@ -1791,10 +1876,8 @@ in the `coord_cartesian()` function.
 library(ggplot2)
 library(ggprism)
 ggplot(data = data, aes(x = Time, y = OD)) +
-  geom_line(aes(color = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63")),
-                linetype = as.factor(MOI)), size=1.25) +
-  geom_point(aes(shape = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63"))), 
-                 size=2.5, fill="black", na.rm = T) +
+  geom_line(aes(color = Sample, linetype = as.factor(MOI)), size=1.25) +
+  geom_point(aes(shape = Sample), size=2.5, fill="black", na.rm = T) +
   scale_shape_prism(palette = "default") +
   scale_color_manual(values = cols) +
   scale_y_log10(limits=c(0.01, 1),
@@ -1813,7 +1896,7 @@ ggplot(data = data, aes(x = Time, y = OD)) +
   coord_cartesian(clip = "off")
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-56-1.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-58-1.png" style="display: block; margin: auto;" />
 
 For the final aesthetic changes, I like to have square plots, so I
 change the `aspect.ratio` in the `theme()` function. Additionally,
@@ -1826,10 +1909,8 @@ title needs to be a text element instead of a blank element
 library(ggplot2)
 library(ggprism)
 ggplot(data = data, aes(x = Time, y = OD)) +
-  geom_line(aes(color = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63")),
-                linetype = as.factor(MOI)), size=1.25) +
-  geom_point(aes(shape = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63"))), 
-                 size=2.5, fill="black", na.rm = T) +
+  geom_line(aes(color = Sample, linetype = as.factor(MOI)), size=1.25) +
+  geom_point(aes(shape = Sample), size=2.5, fill="black", na.rm = T) +
   scale_shape_prism(palette = "default") +
   scale_color_manual(values = cols) +
   scale_y_log10(limits=c(0.01, 1),
@@ -1850,7 +1931,7 @@ ggplot(data = data, aes(x = Time, y = OD)) +
         legend.title = element_text())
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-57-1.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-59-1.png" style="display: block; margin: auto;" />
 
 ### ggplot marginal histograms
 
@@ -1877,7 +1958,7 @@ g = ggplot(df, aes(x, y)) +
 ggMarginal(g, type = "histogram", fill = "gray", lwd=1)
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-58-1.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-60-1.png" style="display: block; margin: auto;" />
 
 ### ggplot boxplots
 
@@ -1896,7 +1977,7 @@ ggplot(iris, aes(x = Petal.Length)) +
   theme(aspect.ratio = 1/1)
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-59-1.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-61-1.png" style="display: block; margin: auto;" />
 
 ``` r
 # box plot faceted by another variable
@@ -1907,7 +1988,7 @@ ggplot(iris, aes(x = Petal.Length, y = Species)) +
   theme(aspect.ratio = 1/1)
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-59-2.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-61-2.png" style="display: block; margin: auto;" />
 
 ### ggplot barplots
 
@@ -1926,7 +2007,7 @@ ggplot(mpg, aes(manufacturer)) +
         axis.text.x = element_text(angle = 90, hjust = 1)) # needed to rotate x labels
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-60-1.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-62-1.png" style="display: block; margin: auto;" />
 
 #### stacked ggplot barplots
 
@@ -1946,7 +2027,7 @@ ggplot(mpg, aes(manufacturer)) +
         axis.text.x = element_text(angle = 90, hjust = 1)) # needed to rotate x labels
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-61-1.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-63-1.png" style="display: block; margin: auto;" />
 
 and percent stacked bar charts very easily with `ggplot`. You don’t have
 to format your data to already contain the percent values either, which
@@ -1966,7 +2047,7 @@ ggplot(mpg, aes(manufacturer)) +
         axis.text.x = element_text(angle = 90, hjust = 1)) # needed to rotate x labels
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-62-1.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-64-1.png" style="display: block; margin: auto;" />
 
 #### grouped ggplot barplots
 
@@ -1991,7 +2072,7 @@ ggplot(mpg, aes(manufacturer)) +
         axis.text.x = element_text(angle = 90, hjust = 1)) # needed to rotate x labels
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-63-1.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-65-1.png" style="display: block; margin: auto;" />
 
 ### ggplot histograms
 
@@ -2014,7 +2095,7 @@ ggplot(df, aes(x)) +
   theme(aspect.ratio = 1/1)
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-64-1.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-66-1.png" style="display: block; margin: auto;" />
 
 Suppose now that you have information about a circular genome, and a
 circular histogram would accurately display that information…of course,
@@ -2046,4 +2127,4 @@ circhist = myhist +
 circhist
 ```
 
-<img src="R_intro_files/figure-gfm/unnamed-chunk-65-1.png" style="display: block; margin: auto;" />
+<img src="R_intro_files/figure-gfm/unnamed-chunk-67-1.png" style="display: block; margin: auto;" />
