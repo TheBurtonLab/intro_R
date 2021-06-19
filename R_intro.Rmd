@@ -10,7 +10,7 @@ geometry: margin=0.5in
 
 ```{r setup, include=FALSE}
 library(knitr)
-opts_chunk$set(fig.align = "center", fig.width = 8, message=F, warning=F)
+opts_chunk$set(fig.align = "center", fig.dim=c(5,5), message=F, warning=F)
 ```
 
 ```{r, echo=F}
@@ -70,13 +70,20 @@ render_toc <- function(
 render_toc("R_intro.Rmd", toc_header_name = "Contents", toc_depth = 5)
 ```
 
+# Setup
+```{r load packages, message=F, warning=F}
+library(tidyverse)
+```
+
 # Introduction
 ## Downloads
 You can download the latest version of R here: [https://cran.microsoft.com](https://cran.microsoft.com).  
 The best way to use R is with Rstudio, which you can download here: 
 [https://www.rstudio.com/products/rstudio/download/](https://www.rstudio.com/products/rstudio/download/).
 
-Here is why Rstudio is so powerful: ![Rstudio_screenshot](Rstudio.png)
+Here is why Rstudio is so powerful: 
+
+![Rstudio_screenshot](Rstudio.png)
 
 - **Top left: Scripting** You can write scripts or import scripts to use with your own data. Here I've made a simple script to plot a normal distribution.  
 - **Bottom left: Console** Where you run R commands. If you are using a script, you can just run commands from the script itself. If you are a MacOS user, you will also have access to your UNIX Terminal.  
@@ -509,10 +516,7 @@ These allow you to specify the filepath to your data, your data delimiter, if he
 
 Here is an example reading in data from a lysis curve with OD values per timepoint per sample.
 ```{r}
-data = read.delim("lysis_curves/data/tabdelimited/190812_Plaque_purified_N4r-_2_infections.txt", 
-                  sep = "\t")
-# column names usually are disrupted
-colnames(data) = c("Time (min)","MG1655","N4","N4r- 2-1","N4r- 2-2","N4r- 2-3","N4r- 2-4","N4r- 2-5")
+data = read.delim("lysis_curves/test1.txt", sep = "\t")
 data
 ```
 Here, the `data` object is a `data.frame`. That is the usual object type when you read in tabular data.
@@ -556,7 +560,7 @@ plot(mtcars$wt, mtcars$mpg)
 ```
 
 Here is where base R sucks - if you have multiple lines you want to plot, you will essentially need multiple lines of code to keep adding new lines. Let's return to my real lysis curve data.
-```{r}
+```{r, fig.dim=c(4,4)}
 data
 
 plot(data[,1], data[,2], type="l", xlab="Time", ylab="OD", 
@@ -580,7 +584,7 @@ That is a brute force way to add multiple lines. You could be more sophisticated
 
 ### Boxplots
 Many of the base plotting commands take similar arguments to change colors and other aesthetics, so now I will just focus on showing examples.
-```{r}
+```{r, fig.dim=c(4,4)}
 # Simple
 boxplot(iris$Petal.Length)
 
@@ -589,14 +593,14 @@ boxplot(Petal.Length ~ Species, data = iris)
 ```
 
 ### Bar plots
-```{r}
+```{r, fig.dim=c(4,4)}
 # Plot VADeath rate among people aged 50-54
 barplot(VADeaths[1,])
 ```
 
 #### Stacked bar plot
 Note: you can also make relative stacked bar charts using proportions or percents, but it requires more effort with base R.
-```{r}
+```{r, fig.dim=c(4,4)}
 barplot(VADeaths,
          col = c("lightblue", "mistyrose", "lightcyan", 
                  "lavender", "cornsilk"),
@@ -604,7 +608,7 @@ barplot(VADeaths,
 ```
 
 #### Grouped bar plot
-```{r}
+```{r, fig.dim=c(4,4)}
 barplot(VADeaths,
          col = c("lightblue", "mistyrose", "lightcyan", 
                  "lavender", "cornsilk"),
@@ -612,7 +616,7 @@ barplot(VADeaths,
 ```
 
 ### Histograms
-```{r}
+```{r, fig.dim=c(4,4)}
 set.seed(100) # set random seed to be same every time
 x = c(rnorm(50,10,2),
       rnorm(50,50,2))
@@ -626,7 +630,7 @@ hist(x, breaks=100)
 The powerhouse function to control base R plotting parameters is `par`. I chiefly used it to assemble multipanel plots, but it can also adjust margin sizes and many other criteria.
 
 `mfrow` and `mfcol` will adjust the panel layout and plot by rows or columns, respectively.
-```{r}
+```{r, fig.dim=c(8,5)}
 par(mfrow=c(1,3))
 plot(1:10, 1:10, type="l")
 boxplot(Petal.Length ~ Species, data = iris)
@@ -667,21 +671,49 @@ Another **HUGE** benefit of the `ggplot2` package is that it is super popular, w
   4. `gridExtra` - Arrange multiple ggplots together into a single figure.
 
 ### Structing data for use in ggplot
-The big power of using `ggplot` is that it can stylize your plots with minimal code. The catch is that your data needs to be vertically structured instead of the more inuitive horizontal structure. Here's what I mean. Let's take my lysis data again.
+The big power of using `ggplot` is that it can stylize your plots with minimal code. The catch is that your data needs to be long formatted instead of the more inuitive wide format Here's what I mean. Let's take my lysis data again.
 
-Here is my lysis data horizontally structured:
+Here is my lysis data in wide format:
 ```{r, echo=F}
 data
 ```
 This is **NOT** suitable for use with `ggplot`. (Actually it can work, but it's more complicated.)
 
-Here is the same lysis data vertically structured (only first 13 rows).
-```{r, echo=F}
-head(read.csv("lysis_curves/data/190812_Plaque_purified_N4r-_2_infections.csv"),13)
-```
-Notice how every row is a **SINGULAR** observation. It is the OD at one timepoint with the sample. Suppose you had something more complicated like &plusmn; DNP addition. You could add a fourth column with that information.
+Here is the same lysis data vertically structured (only first 13 rows). In R, you can use the `dplyr` function `gather` to perform this conversion for you. If you load `tidyverse` or `dplyr` in your script you will have access to `gather` and the useful pipe command `%>%`. `%>%` takes the object before it, and uses that as an input to the next command! How nifty.
 
-If you are going to commit to using `ggplot`, you should either stop making horizontal tables, or (**preferred method**) just write code to switch horizontal data to vertical data.
+Here, notice how we also write `-Time`. We want to keep that column static for all the data sets. In other words, cycle through times for all the data values here.
+```{r}
+data %>% 
+  gather(key="Sample", value = "OD", -Time) %>% 
+  head(13)
+  
+```
+Notice how every row is a **SINGULAR** observation. It is the OD at one timepoint with the sample. Suppose you had something more complicated like &plusmn; DNP addition. You could add a fourth column with that information. You can also name your columns in wide-formatted data to contain the metadata for your experiment. Here's an example:
+
+
+The data in this table is from a lysis curve measuring optical density over time for strains with 3 different genotypes A, B, and C. In addition, the column names contain metadata for whether or not phage were added (MinusPhage vs PlusPhage) and whether or not a chemical was added.
+```{r}
+data = read.delim("lysis_curves/test2.txt")
+data[,c(1,2,6,7)] %>% head()
+```
+
+We can convert this wide data into long data easily with `gather`, but now we also want to separate the columns further into new columns called "Sample", "Phage_Add", "Chem_Add", to track samples, phage addition, and chemical addition. We can use the aptly named `separate` function from the `dplyr` package in `tidyverse`. `separate` will split a text string at non-alphanumeric characters, but you can also specify a delimiter.
+
+We can also further replace "MinusXX" and "PlusXX" with "-" and "+" now too for easier viewing with the `mutate` command, which adds or changes entire columns.
+```{r}
+data_long = data %>% 
+  gather(key = "Group", value = "OD", -Time) %>% 
+  separate(Group, remove=F, into=c("Sample", "Phage_Add", "Chem_Add")) %>% 
+  mutate(
+    Phage_Add = ifelse(Phage_Add == "MinusPhage", "-", "+"),
+    Chem_Add = ifelse(Chem_Add == "MinusChem", "-", "+")
+  )
+
+data_long %>% head()
+data_long %>% tail()
+```
+
+If you are going to commit to using `ggplot`, you should either stop making wide tables, or (**preferred method**) just write code to switch wide data to long data. As shown above, if you name your columns in a logical and consistent manner, you can use functions like `gather` and `separate` to structure your data in long format easily.
 
 ### ggplot scatterplots
 ```{r}
@@ -723,7 +755,9 @@ library(ggplot2)
 library(ggprism)
 library(ggrepel)
 
-data = read.csv("lysis_curves/data/190812_Plaque_purified_N4r-_2_infections.csv")
+data = read.delim("lysis_curves/test1.txt")
+data = data %>% 
+  gather(key="Sample", value = "OD", -Time)
 
 # define custom offset to move line labels away from axis
 offset = max(data$Time)*0.025
@@ -765,12 +799,12 @@ ggplot(data = data, aes(x = Time, y = OD)) +
         plot.margin = unit(c(1,5,1,1), "lines"))
 ```
 
-Here's a more complicated lysis curve.
+Here's a more complicated lysis curve where the data is from a lysis curve with 3 samples, A, B, and C, testing phage addition at 3 different MOIs. (Think of that like phage concentration added)
 ```{r}
 library(ggplot2)
 library(ggprism)
 
-data = read.csv("lysis_curves/data/201029_CCM_N4_addition_to_plasmid-encoded_lysis_causes_LIN.csv")
+data = read.delim("lysis_curves/test3.txt")
 
 # ggprism has default colors to use, but I want to reorder them
 cols = ggprism_data$colour_palettes$colors[c(6,1:5,7:20)]
@@ -779,9 +813,8 @@ cols = ggprism_data$colour_palettes$colors[c(6,1:5,7:20)]
 y_minor = c(rep(1:9, 2)*(10^rep(c(-2, -1), each=9)), 1)
 
 ggplot(data = data, aes(x = Time, y = OD)) +
-  geom_line(aes(color = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63")), # change order R will plot them
-                linetype = as.factor(MOI)), size=1.25) + 
-  geom_point(aes(shape = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63"))), 
+  geom_line(aes(color = Sample, linetype = as.factor(MOI)), size=1.25) + 
+  geom_point(aes(shape = Sample), 
                  size=2.5, fill="black", na.rm = T) +
   scale_shape_prism(palette = "default") + # use prism defined shapes
   scale_color_manual(values = cols) + # use my reordered prism colors
@@ -823,18 +856,15 @@ ggplot(data = data, aes(x = Time, y = OD))
 ```{r}
 library(ggplot2)
 ggplot(data = data, aes(x = Time, y = OD)) +
-  geom_line(aes(color = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63")),
-                linetype = as.factor(MOI)), size=1.25)
+  geom_line(aes(color = Sample, linetype = as.factor(MOI)), size=1.25)
 ```
 
 `geom_point()` will also add bullet points at each time point. Notice that we can adjust the shape to match the sample type as well.
 ```{r}
 library(ggplot2)
 ggplot(data = data, aes(x = Time, y = OD)) +
-  geom_line(aes(color = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63")),
-                linetype = as.factor(MOI)), size=1.25) +
-  geom_point(aes(shape = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63"))), 
-                 size=2.5, fill="black", na.rm = T)
+  geom_line(aes(color = Sample, linetype = as.factor(MOI)), size=1.25) +
+  geom_point(aes(shape = Sample), size=2.5, fill="black", na.rm = T)
 ```
 There are also many other `geom` arguments you can add depending on your plot type. I will show examples of these later. Notice they take other arguments to adjust sizes and constant color changes.  
 
@@ -844,10 +874,8 @@ First, we can change the shapes we use for our bullets to be defined by the `ggp
 library(ggplot2)
 library(ggprism)
 ggplot(data = data, aes(x = Time, y = OD)) +
-  geom_line(aes(color = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63")),
-                linetype = as.factor(MOI)), size=1.25) +
-  geom_point(aes(shape = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63"))), 
-                 size=2.5, fill="black", na.rm = T) +
+  geom_line(aes(color = Sample, linetype = as.factor(MOI)), size=1.25) +
+  geom_point(aes(shape = Sample), size=2.5, fill="black", na.rm = T) +
   scale_shape_prism(palette = "default")
 ```
 
@@ -856,10 +884,8 @@ Next, we can change how `ggplot` will color anything passed to a `color` argumen
 library(ggplot2)
 library(ggprism)
 ggplot(data = data, aes(x = Time, y = OD)) +
-  geom_line(aes(color = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63")),
-                linetype = as.factor(MOI)), size=1.25) +
-  geom_point(aes(shape = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63"))), 
-                 size=2.5, fill="black", na.rm = T) +
+  geom_line(aes(color = Sample, linetype = as.factor(MOI)), size=1.25) +
+  geom_point(aes(shape = Sample), size=2.5, fill="black", na.rm = T) +
   scale_shape_prism(palette = "default") +
   scale_color_manual(values = cols)
 ```
@@ -869,10 +895,8 @@ Then we can also change how the axes are structured. First, I want to make the y
 library(ggplot2)
 library(ggprism)
 ggplot(data = data, aes(x = Time, y = OD)) +
-  geom_line(aes(color = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63")),
-                linetype = as.factor(MOI)), size=1.25) +
-  geom_point(aes(shape = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63"))), 
-                 size=2.5, fill="black", na.rm = T) +
+  geom_line(aes(color = Sample, linetype = as.factor(MOI)), size=1.25) +
+  geom_point(aes(shape = Sample), size=2.5, fill="black", na.rm = T)+
   scale_shape_prism(palette = "default") +
   scale_color_manual(values = cols) +
   scale_y_log10(limits=c(0.01, 1),
@@ -886,10 +910,8 @@ We can also change the scaling of the x axis too. I like to only have x-axis go 
 library(ggplot2)
 library(ggprism)
 ggplot(data = data, aes(x = Time, y = OD)) +
-  geom_line(aes(color = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63")),
-                linetype = as.factor(MOI)), size=1.25) +
-  geom_point(aes(shape = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63"))), 
-                 size=2.5, fill="black", na.rm = T) +
+  geom_line(aes(color = Sample, linetype = as.factor(MOI)), size=1.25) +
+  geom_point(aes(shape = Sample), size=2.5, fill="black", na.rm = T) +
   scale_shape_prism(palette = "default") +
   scale_color_manual(values = cols) +
   scale_y_log10(limits=c(0.01, 1),
@@ -906,10 +928,8 @@ We can add labels to the axes, plot titles, and any legend titles. Note: legend 
 library(ggplot2)
 library(ggprism)
 ggplot(data = data, aes(x = Time, y = OD)) +
-  geom_line(aes(color = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63")),
-                linetype = as.factor(MOI)), size=1.25) +
-  geom_point(aes(shape = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63"))), 
-                 size=2.5, fill="black", na.rm = T) +
+  geom_line(aes(color = Sample, linetype = as.factor(MOI)), size=1.25) +
+  geom_point(aes(shape = Sample), size=2.5, fill="black", na.rm = T) +
   scale_shape_prism(palette = "default") +
   scale_color_manual(values = cols) +
   scale_y_log10(limits=c(0.01, 1),
@@ -931,10 +951,8 @@ ggplot(data = data, aes(x = Time, y = OD)) +
 library(ggplot2)
 library(ggprism)
 ggplot(data = data, aes(x = Time, y = OD)) +
-  geom_line(aes(color = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63")),
-                linetype = as.factor(MOI)), size=1.25) +
-  geom_point(aes(shape = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63"))), 
-                 size=2.5, fill="black", na.rm = T) +
+  geom_line(aes(color = Sample, linetype = as.factor(MOI)), size=1.25) +
+  geom_point(aes(shape = Sample), size=2.5, fill="black", na.rm = T) +
   scale_shape_prism(palette = "default") +
   scale_color_manual(values = cols) +
   scale_y_log10(limits=c(0.01, 1),
@@ -957,10 +975,8 @@ Notice how the points at the min and max values on the x-axis are hidden underne
 library(ggplot2)
 library(ggprism)
 ggplot(data = data, aes(x = Time, y = OD)) +
-  geom_line(aes(color = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63")),
-                linetype = as.factor(MOI)), size=1.25) +
-  geom_point(aes(shape = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63"))), 
-                 size=2.5, fill="black", na.rm = T) +
+  geom_line(aes(color = Sample, linetype = as.factor(MOI)), size=1.25) +
+  geom_point(aes(shape = Sample), size=2.5, fill="black", na.rm = T) +
   scale_shape_prism(palette = "default") +
   scale_color_manual(values = cols) +
   scale_y_log10(limits=c(0.01, 1),
@@ -984,10 +1000,8 @@ For the final aesthetic changes, I like to have square plots, so I change the `a
 library(ggplot2)
 library(ggprism)
 ggplot(data = data, aes(x = Time, y = OD)) +
-  geom_line(aes(color = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63")),
-                linetype = as.factor(MOI)), size=1.25) +
-  geom_point(aes(shape = factor(Sample, levels = c("pRE", "gp60-62", "gp60-63"))), 
-                 size=2.5, fill="black", na.rm = T) +
+  geom_line(aes(color = Sample, linetype = as.factor(MOI)), size=1.25) +
+  geom_point(aes(shape = Sample), size=2.5, fill="black", na.rm = T) +
   scale_shape_prism(palette = "default") +
   scale_color_manual(values = cols) +
   scale_y_log10(limits=c(0.01, 1),
